@@ -1,8 +1,8 @@
-import logging, sys
+import logging
+import sys
 from pandas import DataFrame
 from pyBaseApp.applauncher import error
 from pyWorkflow.step import Step
-
 
 
 class Workflow:
@@ -52,7 +52,8 @@ class Workflow:
             try:
                 stepId = int(stepId)
             except ValueError:
-                error('Workflow definition error - step id {} is not an integer'.format(stepId))
+                error(
+                    'Workflow definition error - step id {} is not an integer'.format(stepId))
 
             step = Step(stepId, workflow.title[index])
             self.steps[stepId] = step
@@ -66,12 +67,13 @@ class Workflow:
                 except ValueError:
                     if not nextStep or nextStep == 'nan':
                         continue
-                    error('Workflow definition error - next value {} is not an integer'.format(nextStep))
+                    error(
+                        'Workflow definition error - next value {} is not an integer'.format(nextStep))
                 try:
                     self.steps[stepId].addNext(self.steps[nextStep])
                 except KeyError:
-                    error('Workflow definition error - step {0} points to step {1} but no definition for step {1}'.format(stepId, nextStep))
-
+                    error(
+                        'Workflow definition error - step {0} points to step {1} but no definition for step {1}'.format(stepId, nextStep))
 
     def _checkData(self, workflow: DataFrame):
         if 'stepId' not in workflow:
