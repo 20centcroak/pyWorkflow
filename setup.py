@@ -4,7 +4,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="pyWorkflow", 
+    name="pySimpleWorkflow", 
     version="0.1",
     author="20centCroak",
     author_email="",

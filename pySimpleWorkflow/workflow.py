@@ -2,7 +2,7 @@ import logging
 import sys
 from pandas import DataFrame
 from pyBaseApp.applauncher import error
-from pyWorkflow.step import Step
+from pySimpleWorkflow.step import Step
 
 
 class Workflow:

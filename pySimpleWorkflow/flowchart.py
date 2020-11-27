@@ -1,5 +1,5 @@
 import networkx as nx
-from pyWorkflow.workflow import Workflow
+from pySimpleWorkflow.workflow import Workflow
 
 
 class Flowchart():

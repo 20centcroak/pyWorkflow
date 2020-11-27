@@ -1,6 +1,6 @@
 import unittest
 import pandas as pd
-from pyWorkflow.workflow import Workflow
+from pySimpleWorkflow.workflow import Workflow
 
 
 class testWorkflow(unittest.TestCase):
