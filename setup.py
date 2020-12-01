@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="pySimpleWorkflow", 
-    version="0.3",
+    version="0.4",
     author="20centCroak",
     author_email="",
     description="manage a workflow written in csv",
