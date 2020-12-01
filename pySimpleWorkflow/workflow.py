@@ -42,7 +42,6 @@ class Workflow:
         """all steps as a dictionary. Key is the step id and value is a Step object"""
         self._build(workflow)
         self._findFirsts()
-        self._order = self._getStepOrder()
 
     def _build(self, workflow: DataFrame):
 
@@ -170,27 +169,9 @@ class Workflow:
         """returns the list of all step objects in the workflow"""
         return list(self.steps.values())
 
-    def _getStepOrder(self):
-        stepNumberPerId = dict()
-        stepNumber = 0
-        for step in self.getSteps():
-            if step.stepId in stepNumberPerId:
-                continue
-            stepNumberPerId[step.stepId] = stepNumber
-            stepNumber += 1
-        return stepNumberPerId
-
     def getLinksPerSteps(self):
         """returns a dictionary with keys= stepID and value = the value return by Workflow.getLinks(step) where step correspond to stepID"""
         links = dict()
         for step in self.getSteps():
-            links[step.stepId] = self.getLinks(step)
-        return links
-
-    def getLinks(self, step: Step):
-        """returns a dictionary with keys = next step id and values = index of the next step in the list returned by Workflow.getSteps()"""
-        nextIds = [step.stepId for step in step.getNexts()]
-        links = dict()
-        for nextId in nextIds:
-            links[nextId] = self._order[nextId]
+            links[step.stepId] = [step.stepId for step in step.getNexts()]  
         return links
