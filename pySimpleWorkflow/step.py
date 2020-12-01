@@ -55,4 +55,7 @@ class Step:
         """
         tells if this step is last in a workflow (returns True), it means that it does not have any next step
         """
+        print('is last ? step:', self.stepId)
+        print('is last? nexts:', self.nexts)
+
         return not self.nexts
