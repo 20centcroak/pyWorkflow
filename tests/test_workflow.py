@@ -23,6 +23,16 @@ class testWorkflow(unittest.TestCase):
 
     def test_wkf(self):
         workflow: Workflow = Workflow(pd.read_csv('tests/resources/workflow.csv'), 'myWorkflow')
+        paths = workflow.getAllPaths()
         workflow.printStatusPerStep()
+
+        count = 0
+        for path in paths:
+            ids = [str(step.stepId) for step in path]
+            s = '->'
+            s=s.join(ids)
+            logging.info('path %s : %s', count, s)
+            count+=1
+
 
     

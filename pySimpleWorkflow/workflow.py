@@ -97,6 +97,7 @@ class Workflow:
 
     def getAllPaths(self):
         """returns all possible paths (list of steps) starting from first steps, going to next steps down to last steps."""
+        logging.debug("-----------START----------")
         return self.getDescending(self.firstSteps)
 
     def getDescending(self, steps):
@@ -104,30 +105,37 @@ class Workflow:
         paths = []
         for step in steps:
             self._addPath([], step, paths)
+        logging.debug("-----------END----------")
         return paths
 
     def _addPath(self, root, step:Step, paths):
         path = [item for item in root]
-        self._addStepInPath(step, path)
+        if step in path:
+            logging.debug("return")
+            return
+        path.append(step)
+        logging.debug("add %s", step.stepId)
         paths.append(path)
 
         while not step.isLast():
 
             if len(step.getNexts()) < 2:
                 step = step.getNexts()[0]
-                self._addStepInPath(step, path)
+                if step in path:
+                    logging.debug("return")
+                    return
+                path.append(step)
             else:
                 root = [item for item in path]
                 for index, item in enumerate(step.getNexts()):
                     if index == 0:
-                        self._addStepInPath(item, path)
+                        step = item
+                        if item in path:
+                            logging.debug("return")
+                            return
+                        path.append(step)
                     else:
                         self._addPath(root, item, paths)
-
-    def _addStepInPath(self, step: Step, path):
-        if step in path:
-            return
-        path.append(step)
 
     def getAscendings(self, step):
         """returns ascencding sequences, starting from the given step, following the previous steps up to the first steps."""
@@ -137,19 +145,25 @@ class Workflow:
 
     def _addAscending(self, root, step, paths):
         path = [item for item in root]
-        self._addStepInPath(step, path)
+        if step in path:
+            return
+        path.append(step)
         paths.append(path)
 
         while not step.isFirst():
             if len(step.getPreviouses()) < 2:
                 step = step.getPreviouses()[0]
-                self._addStepInPath(step, path)
+                if step in path:
+                    return
+                path.append(step)
             else:
                 root = [item for item in path]
                 for index, item in enumerate(step.getPreviouses()):
                     if index == 0:
                         step = item
-                        self._addStepInPath(step, path)
+                        if step in path:
+                            return
+                        path.append(step)
                     else:
                         self._addAscending(root, item, paths)
 
